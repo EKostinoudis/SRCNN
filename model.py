@@ -43,9 +43,9 @@ class SRCNN2(nn.Module):
         self.model = nn.Sequential(
                         nn.Conv2d(3, 128, kernel_size=3, padding=1), 
                         nn.ReLU(),
-                        nn.ConvTranspose2d(128, 32, kernel_size=2, stride=2), 
+                        nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2), 
                         nn.ReLU(),
-                        nn.Conv2d(128, 64, kernel_size=3, padding=1), 
+                        nn.Conv2d(64, 32, kernel_size=3, padding=1), 
                         nn.ReLU(),
                         nn.Conv2d(32, 3, kernel_size=3, padding=1)
                         )
