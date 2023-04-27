@@ -57,3 +57,54 @@ class SRCNN2(nn.Module):
     
     def forward(self, x):
         return self.model(x)
+
+class SRCNN3(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        # first and last channels are 3 because we have RGB images
+        self.model = nn.Sequential(
+                        nn.Conv2d(3, 256, kernel_size=3, padding=1), 
+                        nn.LeakyReLU(),
+                        nn.ConvTranspose2d(256, 128, kernel_size=2, stride=2), 
+                        nn.BatchNorm2d(128),
+                        nn.LeakyReLU(),
+                        nn.Conv2d(128, 64, kernel_size=3, padding=1), 
+                        nn.BatchNorm2d(64),
+                        nn.LeakyReLU(),
+                        nn.Conv2d(64, 32, kernel_size=3, padding=1), 
+                        nn.BatchNorm2d(32),
+                        nn.LeakyReLU(),
+                        nn.Conv2d(32, 3, kernel_size=3, padding=1)
+                        )
+
+        for l in self.model[:-1]:
+            if isinstance(l, nn.Conv2d) or isinstance(l, nn.ConvTranspose2d):
+                nn.init.kaiming_normal_(l.weight.data, mode='fan_out', nonlinearity='leaky_relu')
+                nn.init.zeros_(l.bias.data)
+    
+    def forward(self, x):
+        return self.model(x)
+
+class SRCNN4(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        # first and last channels are 3 because we have RGB images
+        self.model = nn.Sequential(
+                        nn.Conv2d(3, 128, kernel_size=3, padding=1), 
+                        nn.LeakyReLU(),
+                        nn.ConvTranspose2d(128, 64, kernel_size=4, stride=2, padding=1), 
+                        nn.LeakyReLU(),
+                        nn.Conv2d(64, 32, kernel_size=3, padding=1), 
+                        nn.LeakyReLU(),
+                        nn.Conv2d(32, 3, kernel_size=3, padding=1)
+                        )
+
+        for l in self.model[:-1]:
+            if isinstance(l, nn.Conv2d) or isinstance(l, nn.ConvTranspose2d):
+                nn.init.kaiming_normal_(l.weight.data, mode='fan_out', nonlinearity='leaky_relu')
+                nn.init.zeros_(l.bias.data)
+    
+    def forward(self, x):
+        return self.model(x)
