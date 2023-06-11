@@ -14,3 +14,6 @@ def save_plot(fig, name, folder=None):
     if not os.path.exists(path):
         os.makedirs(path)
     fig.savefig(os.path.join(path, f"{name}.png"), bbox_inches='tight')
+
+def count_trainable(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
